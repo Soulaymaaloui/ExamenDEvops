@@ -8,13 +8,13 @@
 <body class="container py-4">
   <h1 class="text-center">Product Catalog</h1>
   <div class="row">
-    {% for name, data in products.items() %}
-    <div class="col-md-4 text-center">
-      <img src="{{ url_for('static', filename='images/' + data.image) }}" alt="{{ name }}" width="150">
-      <h4>{{ name }}</h4>
-      <p>${{ data.price }}</p>
+    {% for code, data in products.items() %}
+    <div class="col-md-4 text-center mb-4">
+      <img src="{{ url_for('static', filename='images/' + data.image) }}" alt="{{ data.description }}" width="150">
+      <h4>{{ data.description }}</h4>
+      <p>${{ "%.2f"|format(data.price) }}</p>
       <form action="/add_to_cart" method="post">
-        <input type="hidden" name="product" value="{{ name }}">
+        <input type="hidden" name="product" value="{{ code }}">
         <input type="number" name="quantity" min="1" value="1" class="form-control mb-2">
         <button type="submit" class="btn btn-primary">Add to Cart</button>
       </form>
