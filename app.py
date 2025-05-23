@@ -19,6 +19,7 @@ def index():
 @app.route('/add_to_cart', methods=['POST'])
 def add_to_cart():
     product_code = int(request.form['product'])
+    product_info = products.get(product_code)
     quantity = int(request.form['quantity'])
     if 'cart' not in session:
         session['cart'] = []
@@ -31,6 +32,13 @@ def cart():
     cart_items = session.get('cart', [])
     total = sum(products[item['code']]['price'] * item['quantity'] for item in cart_items)
     return render_template('cart.html', cart=cart_items, products=products, total=total)
+
+@app.route('/clear_cart')
+def clear_cart():
+    session.pop('cart', None)
+    return redirect(url_for('index'))
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
